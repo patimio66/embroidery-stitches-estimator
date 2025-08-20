@@ -23,7 +23,7 @@
             </style>
         @endif
     </head>
-    <body class="flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
+    <body class="flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col bg-stone-100">
         <div class="flex items-center justify-center w-full transition-opacity opacity-100 duration-750 lg:grow starting:opacity-0">
             <main class="w-full">
                 @livewire('embroidery-estimator')
