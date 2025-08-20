@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Drivers\Imagick\Driver as ImagickDriver;
 use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -35,8 +36,9 @@ class EmbroideryEstimator extends Component
             // Get the file content from S3
             $fileContent = Storage::disk('s3')->get($this->uploadedFilePath);
 
-            // Create image from file content
-            $manager = new ImageManager(new Driver());
+            // Create image from file content using Imagick if available, fallback to GD
+            $driver = extension_loaded('imagick') ? new ImagickDriver() : new Driver();
+            $manager = new ImageManager($driver);
             $image = $manager->read($fileContent);
 
             // Get resolution - use default if not available
