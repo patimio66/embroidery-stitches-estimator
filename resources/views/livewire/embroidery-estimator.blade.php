@@ -1,4 +1,4 @@
-<div class="max-w-xl mx-auto p-6 bg-white rounded-2xl shadow" wire:loading.class="opacity-75 cursor-wait">
+<div class="max-w-xl mx-auto p-6 bg-white rounded-2xl shadow">
   <h2 class="text-xl font-bold mb-4">Embroidery Estimator</h2>
 
   <form wire:submit.prevent="estimate" class="space-y-4">
@@ -14,7 +14,7 @@
       <p class="text-red-500 text-sm">{{ $message }}</p>
     @enderror
 
-    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-xl shadow text-sm hover:bg-blue-700 cursor-pointer">
+    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-xl shadow text-sm hover:bg-blue-700 cursor-pointer" wire:loading.class="hidden">
       Oblicz
     </button>
 
