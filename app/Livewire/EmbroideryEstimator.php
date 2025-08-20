@@ -59,7 +59,7 @@ class EmbroideryEstimator extends Component
             $area_in2 = $area_cm2 / 6.4516;
 
             // Complexity detection (coverage %)
-            $shrinkedImage = $trimmedImage->scale(width: 200); // shrink for performance
+            $shrinkedImage = $trimmedImage->scale(width: 300); // shrink for performance
             $this->previewImage = $shrinkedImage->toWebp()->toDataUri();
             $width = $shrinkedImage->width();
             $height = $shrinkedImage->height();
@@ -77,12 +77,12 @@ class EmbroideryEstimator extends Component
             $coverage = $darkPixels / $totalPixels;
 
             // Adjust stitch multiplier
-            if ($coverage < 0.2) {
-                $multiplier = 1500; // light design
-            } elseif ($coverage < 0.6) {
+            if ($coverage < 0.3) {
+                $multiplier = 3000; // light design
+            } elseif ($coverage < 0.7) {
                 $multiplier = 2000; // medium
             } else {
-                $multiplier = 2500; // heavy
+                $multiplier = 3000; // heavy
             }
 
             $stitch_estimate = round(($area_in2 * $coverage) * $multiplier);
