@@ -29,12 +29,12 @@ class EmbroideryEstimator extends Component
         ]);
 
         try {
-            // Store the uploaded file temporarily in S3
+            // Store the uploaded file temporarily using default storage driver
             $tempPath = 'temp/embroidery/' . Str::uuid() . '.' . $this->design->getClientOriginalExtension();
-            $this->uploadedFilePath = $this->design->storeAs('', $tempPath, 's3');
+            $this->uploadedFilePath = $this->design->storeAs('', $tempPath);
 
-            // Get the file content from S3
-            $fileContent = Storage::disk('s3')->get($this->uploadedFilePath);
+            // Get the file content from storage
+            $fileContent = Storage::get($this->uploadedFilePath);
 
             // Create image from file content using Imagick if available, fallback to GD
             $driver = extension_loaded('imagick') ? new ImagickDriver() : new Driver();
@@ -106,7 +106,6 @@ class EmbroideryEstimator extends Component
                 'thread_usage' => $thread_m . ' m',
                 'price' => '$' . number_format($price, 2),
             ];
-
         } catch (\Exception $e) {
             $this->addError('design', 'Error processing image: ' . $e->getMessage());
         } finally {
@@ -125,8 +124,8 @@ class EmbroideryEstimator extends Component
 
     protected function cleanupTempFile()
     {
-        if ($this->uploadedFilePath && Storage::disk('s3')->exists($this->uploadedFilePath)) {
-            Storage::disk('s3')->delete($this->uploadedFilePath);
+        if ($this->uploadedFilePath && Storage::exists($this->uploadedFilePath)) {
+            Storage::delete($this->uploadedFilePath);
             $this->uploadedFilePath = null;
         }
     }
